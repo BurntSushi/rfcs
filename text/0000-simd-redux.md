@@ -7,6 +7,9 @@
 
 * [Summary][summary]
 * [Motivation][motivation]
+    * [Vendor independent interface][motivation-independent]
+    * [Vendor dependent intrinsics][motivation-dependent]
+    * [A brief survey][motivation-survey]
 * [How We Teach This][how-we-teach-this]
 * [Detailed design][design]
 * [Drawbacks][drawbacks]
@@ -31,6 +34,9 @@ ecosystem. This is the *beginning* of SIMD on Rust, not the end.
 
 # Motivation
 [motivation]: #motivation
+
+## Vendor dependent intrinsics
+[motivation-dependent]: #motivation-dependent
 
 To a first approximation, vendor dependent intrinsics provide a *reliable*
 way of executing specific CPU instructions. These CPU instructions are often
@@ -59,6 +65,18 @@ reaching that discovering a new algorithm using specific SIMD dependent
 intrinsics is generally considered to be a publishable result. Therefore, it is
 paramount that a low level language like Rust provide access to a *familiar*
 API that provides vendor dependent intrinsics.
+
+## A Brief Survey
+[motivation-survey]: #motivation-survey
+
+To further motivate this RFC, we should take a brief look to see how the
+existing unstable SIMD features in Rust are being used.
+
+* The [`simd` crate](https://github.com/rust-lang-nursery/simd) itself
+  obviously makes heavy use of unstable SIMD features to provide a convenient
+  high-level cross platform interface to SIMD vectors. More will be said about
+  this crate later, but a goal of this RFC is to permit this crate to compile
+  on stable Rust while exposing the same API it does today.
 
 # How We Teach This
 [how-we-teach-this]: #how-we-teach-this
