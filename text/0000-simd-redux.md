@@ -94,6 +94,19 @@ basic terminology used throughout this RFC.
 # Motivation
 [motivation]: #motivation
 
+## Vendor independent interface
+[motivation-independent]: #motivation-independent
+
+A vendor independent interface provides reasonably high-level access to SIMD
+vector types and a set of basic operations that can be performed on those
+vectors. As an independent interface, users of this API do not need to be
+concerned about portability or the details of specific platform support.
+
+A crucial reason why this RFC proposes a small vendor independent interface
+is that it would be otherwise very difficult for a crate outside of `std` to
+build their own vendor independent interface. (This is discussed in more depth
+later.)
+
 ## Vendor dependent intrinsics
 [motivation-dependent]: #motivation-dependent
 
