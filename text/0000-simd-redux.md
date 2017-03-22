@@ -48,7 +48,7 @@ basic terminology used throughout this RFC.
   single-precision floating pointer numbers, occupying exactly 128-bits.
   Vectors come in many shapes and sizes, for example a `u8x16` is a 128-bit
   vector of 16 unsigned 8-bit integers and a `i32x8` is a 256-bit vector of
-  8 signed 32-bit integer.
+  8 signed 32-bit integers.
 * **lane configuration** - A lane configuration refers to the number of units
   in a SIMD vector. For example, a `f32x4` vector has 4 32-bit lanes, and
   a `i8x32` has 32 8-bit lanes.
@@ -59,7 +59,8 @@ basic terminology used throughout this RFC.
   CPUs with Intel SSE2 support in a single CPU instruction. If no such
   analogous support is available, then the addition of two vectors is done
   using normal instructions. The point of a vendor independent API is that it
-  *abstracts away* the portability concerns of SIMD.
+  *abstracts away* the portability concerns of SIMD. Using a vendor
+  independent API does not require any conditional compilation.
 * **vendor dependent API** - An API defined in terms of specific instructions
   made available by vendors. Using a vendor dependent API is not portable,
   which means all uses must somehow check that the APIs used are actually
@@ -82,7 +83,13 @@ basic terminology used throughout this RFC.
   actually includes SSE2 as part of its base set of instructions, which means
   every single `x86_64` CPU is guaranteed to have all SSE and SSE2
   instructions. Instructions introduced in SSE3, SSSE3, SSE4.1, SSE4.2, etc.,
-  are not guaranteed to be available on any given `x86_64` CPU.
+  are not guaranteed to be available on any given `x86_64` CPU. All intructions
+  introduced by the SSE extensions operate on vectors no larger than 128 bits.
+* **AVX** - AVX stands for Advanced Vector Extensions. AVX is another class
+  of intruction set extensions for `x86_64`. Unlike SSE, the focus of AVX is
+  on 256 bit vectors.
+* **AVX-512** - The latest set of extensions introduced by Intel for `x86_64`.
+  Unlike AVX, AVX-512's focus is on 512-bit vectors.
 * **NEON** - NEON is an instruction set extension, just like SSE, except it's
   for ARM CPUs, not Intel.
 * **compiler intrinsic** - A special type of function made available by the
@@ -90,6 +97,9 @@ basic terminology used throughout this RFC.
   compiler intrinsics.)
 * **vendor intrinsic** - A normal Rust function whose API mechanically matches
   the API specified by a vendor.
+* **autovectorization** - An automatic process by optimizing compilers to
+  generate code which uses SIMD instructions, even if you aren't using a SIMD
+  API.
 
 # Motivation
 [motivation]: #motivation
@@ -113,14 +123,10 @@ later.)
 To a first approximation, vendor dependent intrinsics provide a *reliable*
 way of executing specific CPU instructions. These CPU instructions are often
 desirable to use because they typically offer some kind of performance benefit.
-Indeed, most vendor dependent intrinsics offer something called SIMD, or
-"single instruction, multiple data." Namely, SIMD intrinsics offer access to
-CPU instructions that exploit hardware level parallelism to operate on multiple
-parts of some data at the same time.
 
 The key word to focus on here is "reliable." In today's world, optimizing
 compilers will introduce SIMD instructions in your program where applicable.
-This process is generally referred to as *autovectorization*. But, optimizers
+This process is generally referred to as autovectorization. But, optimizers
 are generally opaque, which can make it hard to be certain that you're making
 the most effective use of your CPU. Moreover, there are *thousands* of vendor
 dependent intrinsics, and trying to convince an optimizing compiler to use a
@@ -135,7 +141,7 @@ boundless. SIMD intrinsics are used in graphics, multimedia, linear algebra,
 text search and more. The ubiquity of vendor dependent intrinsics is so far
 reaching that discovering a new algorithm using specific SIMD intrinsics is
 generally considered to be a publishable result. Therefore, it is paramount
-that a low level language like Rust provide access to a *familiar* API that
+that a systems language like Rust provide access to a *familiar* API that
 provides vendor dependent intrinsics.
 
 ## A Brief Survey
