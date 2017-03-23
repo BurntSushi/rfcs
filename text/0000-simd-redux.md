@@ -12,6 +12,9 @@
     * [Vendor dependent intrinsics][motivation-dependent]
     * [A brief survey][motivation-survey]
 * [Detailed design][design]
+    * [Vendor dependent intrinsics][design-dependent]
+    * [Vendor independent interface][design-independent]
+        * [A World Without][design-independent-without]
 * [How We Teach This][how-we-teach-this]
 * [Drawbacks][drawbacks]
 * [Alternatives][alternatives]
@@ -178,6 +181,51 @@ share a single crucial bit in common: the SIMD functionality only works on
 nightly Rust. There is a clear and pressing desire among Rust programmers to
 get the most out of their CPUs!
 
+# Detailed design
+[design]: #detailed-design
+
+## Vendor dependent interface
+[design-dependent]: #design-dependent
+
+## Vendor independent interface
+[design-independent]: #design-independent
+
+### A World Without
+[design-independent-without]: #design-independent-without
+
+It would possible to trim this RFC down quite a bit by removing the vendor
+independent interface. Instead, we'd be left with only a definition of cross
+platform SIMD vector types and a host of vendor dependent intrinsics, as
+outlined in the previous section. However, if we do this, it will be very hard
+for crates in the ecosystem to provide their own vendor independent API on top
+of the SIMD vector types exported by `std`.
+
+For example, let's say we decided to punt on the vendor independent API and an
+industrious individual wanted to provide a cross platform `Mul` implementation
+on only the SIMD type `i32x4`.
+[As explained
+here](https://internals.rust-lang.org/t/getting-explicit-simd-on-stable-rust/4380/209),
+this would be quite difficult. Namely, each platform would need to use its own
+dedicated SIMD instruction, and *within* each platform, certain strategies
+might be better than others, depending on the instruction set extensions
+supported by the CPU. For example, on `x86_64`, if SSE 4.1 is available, then
+the `_mm_mullo_epi32` intrinsic can be used, but failing that, some intrinsics
+from SSE2 might be combined to get the desired result. And of course, if no
+special SIMD intrinsics are available, then this individual would also have to
+provide a manual implementation as well.
+
+This then has to be repeated for each SIMD type and for each of the elementary
+operations. Lest you think that the process ought to be the same for each SIMD
+type, rest assured that some instruction set extensions (like SSE from Intel)
+have somewhat inconsistent support for all operations on all permutations of
+types.
+
+A testing strategy would need to be employed, and that testing would need to
+account for all platforms supported.
+
+The only reason why it's so simple for us to provide this vendor independent
+API is because all this work has already been done for us by LLVM.
+
 
 # How We Teach This
 [how-we-teach-this]: #how-we-teach-this
@@ -189,13 +237,6 @@ Would the acceptance of this proposal change how Rust is taught to new users at 
 How should this feature be introduced and taught to existing Rust users?
 
 What additions or changes to the Rust Reference, _The Rust Programming Language_, and/or _Rust by Example_ does it entail?
-
-# Detailed design
-[design]: #detailed-design
-
-This is the bulk of the RFC. Explain the design in enough detail for somebody familiar
-with the language to understand, and for somebody familiar with the compiler to implement.
-This should get into specifics and corner-cases, and include examples of how the feature is used.
 
 # Drawbacks
 [drawbacks]: #drawbacks
