@@ -108,7 +108,7 @@ basic terminology used throughout this RFC.
 [motivation]: #motivation
 
 ## Vendor independent interface
-[motivation-independent]: #motivation-independent
+[vendor-independent-interface]: #vendor-independent-interface
 
 A vendor independent interface provides reasonably high-level access to SIMD
 vector types and a set of basic operations that can be performed on those
@@ -121,7 +121,7 @@ build their own vendor independent interface. (This is discussed in more depth
 later.)
 
 ## Vendor dependent intrinsics
-[motivation-dependent]: #motivation-dependent
+[vendor-dependent-intrinsics]: #vendor-dependent-intrinsics
 
 To a first approximation, vendor dependent intrinsics provide a *reliable*
 way of executing specific CPU instructions. These CPU instructions are often
