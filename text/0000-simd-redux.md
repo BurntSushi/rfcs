@@ -148,7 +148,7 @@ that a systems language like Rust provide access to a *familiar* API that
 provides vendor dependent intrinsics.
 
 ## A Brief Survey
-[motivation-survey]: #motivation-survey
+[a-brief-survey]: #a-brief-survey
 
 To further motivate this RFC, we should take a brief look to see how the
 existing unstable SIMD features in Rust are being used.
@@ -185,10 +185,10 @@ get the most out of their CPUs!
 [design]: #detailed-design
 
 ## Vendor dependent intrinsics
-[vendor-dependent-intrinsics]: #vendor-dependent-intrinsics
+[vendor-dependent-intrinsics-1]: #vendor-dependent-intrinsics-1
 
 ## Vendor independent interface
-[vendor-independent-interface]: #vendor-independent-interface
+[vendor-independent-interface-1]: #vendor-independent-interface-1
 
 ### A World Without
 [a-world-without]: #a-world-without
