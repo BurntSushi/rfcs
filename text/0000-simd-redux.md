@@ -8,13 +8,13 @@
 * [Summary][summary]
 * [Terminology][terminology]
 * [Motivation][motivation]
-    * [Vendor independent interface][motivation-independent]
-    * [Vendor dependent intrinsics][motivation-dependent]
-    * [A brief survey][motivation-survey]
+    * [Vendor independent interface][vendor-independent-interface]
+    * [Vendor dependent intrinsics][vendor-dependent-intrinsics]
+    * [A brief survey][a-brief-survey]
 * [Detailed design][design]
-    * [Vendor dependent intrinsics][design-dependent]
-    * [Vendor independent interface][design-independent]
-        * [A World Without][design-independent-without]
+    * [Vendor dependent intrinsics][vendor-dependent-intrinsics-1]
+    * [Vendor independent interface][vendor-independent-interface-1]
+        * [A World Without][a-world-without]
 * [How We Teach This][how-we-teach-this]
 * [Drawbacks][drawbacks]
 * [Alternatives][alternatives]
@@ -184,7 +184,7 @@ get the most out of their CPUs!
 # Detailed design
 [design]: #detailed-design
 
-## Vendor dependent interface
+## Vendor dependent intrinsics
 [design-dependent]: #design-dependent
 
 ## Vendor independent interface
