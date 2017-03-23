@@ -185,13 +185,13 @@ get the most out of their CPUs!
 [design]: #detailed-design
 
 ## Vendor dependent intrinsics
-[design-dependent]: #design-dependent
+[vendor-dependent-intrinsics]: #vendor-dependent-intrinsics
 
 ## Vendor independent interface
-[design-independent]: #design-independent
+[vendor-independent-interface]: #vendor-independent-interface
 
 ### A World Without
-[design-independent-without]: #design-independent-without
+[a-world-without]: #a-world-without
 
 It would possible to trim this RFC down quite a bit by removing the vendor
 independent interface. Instead, we'd be left with only a definition of cross
