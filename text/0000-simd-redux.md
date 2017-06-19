@@ -44,7 +44,7 @@ basic terminology used throughout this RFC.
 
 * **SIMD** - SIMD stands for Single Instruction, Multiple Data. It is an
   umbrella term to refer to a class of CPU instructions that exploit hardware
-  level parallelism to operate on multiple piece of data simultaneously.
+  level parallelism to operate on multiple pieces of data simultaneously.
 * **SIMD vector** - Also sometimes written as simply "vector," is the unit
   of data that SIMD CPU instructions act upon. An example of a SIMD vector is
   `f32x4` (or Intel's equivalent, `__m128`), which is a sequence of 4 32-bit
@@ -61,9 +61,9 @@ basic terminology used throughout this RFC.
   some platforms. For example, adding two vectors of `f32x4` can be done on
   CPUs with Intel SSE2 support in a single CPU instruction. If no such
   analogous support is available, then the addition of two vectors is done
-  using normal instructions. The point of a vendor independent API is that it
-  *abstracts away* the portability concerns of SIMD. Using a vendor
-  independent API does not require any conditional compilation.
+  using normal instructions or "simulated." The point of a vendor independent
+  API is that it *abstracts away* the portability concerns of SIMD. Using a
+  vendor independent API does not require any conditional compilation.
 * **vendor dependent API** - An API defined in terms of specific instructions
   made available by vendors. Using a vendor dependent API is not portable,
   which means all uses must somehow check that the APIs used are actually
@@ -90,7 +90,8 @@ basic terminology used throughout this RFC.
   introduced by the SSE extensions operate on vectors no larger than 128 bits.
 * **AVX** - AVX stands for Advanced Vector Extensions. AVX is another class
   of intruction set extensions for `x86_64`. Unlike SSE, the focus of AVX is
-  on 256 bit vectors.
+  on 256 bit vectors. In addition to AVX, there is also AVX2, which is an
+  extension of the set of operations on 256 bit vectors.
 * **AVX-512** - The latest set of extensions introduced by Intel for `x86_64`.
   Unlike AVX, AVX-512's focus is on 512-bit vectors.
 * **NEON** - NEON is an instruction set extension, just like SSE, except it's
@@ -223,8 +224,8 @@ types.
 A testing strategy would need to be employed, and that testing would need to
 account for all platforms supported.
 
-The only reason why it's so simple for us to provide this vendor independent
-API is because all this work has already been done for us by LLVM.
+The only reason why it's so (relatively) simple for us to provide this vendor
+independent API is because all this work has already been done for us by LLVM.
 
 
 # How We Teach This
