@@ -195,11 +195,11 @@ get the most out of their CPUs!
 [a-world-without]: #a-world-without
 
 It would possible to trim this RFC down quite a bit by removing the vendor
-independent interface. Instead, we'd be left with only a definition of cross
-platform SIMD vector types and a host of vendor dependent intrinsics, as
-outlined in the previous section. However, if we do this, it will be very hard
-for crates in the ecosystem to provide their own vendor independent API on top
-of the SIMD vector types exported by `std`.
+independent API. Instead, we'd be left with only a definition of cross platform
+SIMD vector types and a host of vendor dependent intrinsics, as outlined in the
+previous section. However, if we do this, it will be very hard for crates in
+the ecosystem to provide their own vendor independent API on top of the SIMD
+vector types exported by `std`.
 
 For example, let's say we decided to punt on the vendor independent API and an
 industrious individual wanted to provide a cross platform `Mul` implementation
